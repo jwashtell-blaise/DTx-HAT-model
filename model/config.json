@@ -2,5 +2,5 @@
   "num_inputs": 1024,
   "num_outputs": 115,
   "sequence_model": true,
-  "weights_file": "task_specific_resources/model_weights.h5"
+  "weights_file": "weights.h5"
 }

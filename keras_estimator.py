@@ -105,15 +105,14 @@ class KerasEstimator(BaseEstimator, RegressorMixin, ClassifierMixin):
     except:
         cached_text = {}
 
-    def __init__(self, model_config=None):
-        if model_config is None:
+    def __init__(self, model_path=None):
+        if model_path is None:
             self.model = None
-        if model_config:
-            with open(model_config) as config_file:
+        if model_path:
+            with open(os.path.join(model_path, "config.json")) as config_file:
                 config = json.load(config_file)
             self.model = get_feed_forward_model(config["num_inputs"], config["num_outputs"], sequence_model=config["sequence_model"])
-            self.model.load_weights(config["weights_file"])
-
+            self.model.load_weights(os.path.join(model_path, config["weights_file"]))
 
     def get_params(self, deep=True):
         return {}
@@ -207,7 +206,7 @@ class KerasEstimator(BaseEstimator, RegressorMixin, ClassifierMixin):
             if min_train_loss is not None and train_loss < min_train_loss:
                 break
 
-        self.model.save_weights("model_weights.h5")
+        self.model.save_weights("model/model_weights.h5")
 
     def fit_CV(self, X, Y, sample_weight=None, num_folds=10):
 
